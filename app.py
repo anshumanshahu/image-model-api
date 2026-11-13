@@ -20,7 +20,7 @@ HIGH_CHANCE_TH = 0.80
 MIN_OCR_WORDS = 3
 CHUNK_WORDS, CHUNK_STEP = 8, 4
 
-# model class -> response key
+
 SCORE_KEYS = {
     "explicit": "NSFW",
     "suggestive": "NSFW",
@@ -29,7 +29,7 @@ SCORE_KEYS = {
     "safe": "normal",
 }
 
-# response key -> reason
+
 REASON_FOR = {
     "NSFW": "possible_nsfw",
     "hate_gesture": "possible_hate_gesture",
@@ -71,7 +71,7 @@ def grouped_scores(probs):
 
 
 def word_chars(token):
-    # letters, digits and combining marks (Devanagari matras ke liye)
+    
     return sum(ch.isalnum() or unicodedata.category(ch).startswith("M") for ch in token)
 
 
@@ -104,16 +104,16 @@ def build_response(probs, pii, raw_text, text, text_res):
     elif text_res and text_res.get("status") in ("review", "reject"):
         reasons.append("possible_text_abuse")
 
-    # decision: kuch bhi unsafe mila to pending_review, warna allow
+    
     decision = "pending_review" if reasons else "allow"
 
-    # priority
+    
     text_prob = float(text_res.get("probability", 0)) if text_res and "probability" in text_res else 0.0
     top_unsafe = max(scores["NSFW"], scores["hate_gesture"], scores["hate_symbol"], text_prob)
     high = bool(pii) or text_pii or top_unsafe >= HIGH_CHANCE_TH
     priority = "high_chance" if high else "low_chance"
 
-    # OCR output: PII mila to pura text aur type, warna cleaned text
+    
     if pii:
         ocr_text = raw_text
         pii_found = pii
@@ -145,19 +145,19 @@ def check_image(file: UploadFile = File(...)):
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid image file")
 
-    # 1. image classification
+    
     probs = classify(img)
 
-    # 2. OCR
+    
     try:
         raw_text = extract_text(img)
     except Exception:
         raw_text = ""
 
-    # 3. PII check raw OCR text par
+    
     pii = find_pii(raw_text)
 
-    # 4. text service (PII wala text service tak nahi jaata)
+    
     text = clean_ocr(raw_text)
     text_res = None
     if not pii and len(text.split()) >= MIN_OCR_WORDS:
