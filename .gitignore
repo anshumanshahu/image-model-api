@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+venv/
+img_venv/
+.env/
+
+# Cached features and intermediate files
+*.npz
+*.npy
+feats_*.npz
+img_feats.npz
+
