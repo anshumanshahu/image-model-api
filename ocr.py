@@ -5,10 +5,10 @@ from PIL import Image, ImageOps, ImageFilter, ImageFile
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-MIN_CONF = 45          # words below this confidence are dropped as noise
-TIMEOUT = 20           # seconds per Tesseract run
+MIN_CONF = 45          
+TIMEOUT = 20           
 
-# (image variant, language, page segmentation mode)
+
 CANDIDATES = [
     ("gray", "eng", 6),
     ("gray", "eng+hin", 6),
