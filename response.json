@@ -1,0 +1,7 @@
+{
+  "decision": "pending_review",
+  "reason": ["possible_personal_info"],
+  "scores": {"NSFW": 0.0034, "hate_gesture": 0.1865, "hate_symbol": 0.0009, "normal": 0.8092},
+  "priority": "high_chance",
+  "ocr": {"text": "987678932 pst -", "pii_found": ["phone"]}
+}
